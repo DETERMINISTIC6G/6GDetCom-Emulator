@@ -52,10 +52,10 @@ To compile the kernel module, the kernel header files matching the running kerne
 $ sudo apt install linux-headers-$(uname -r)
 ```
 
-Clone the repository (we assume that you cloned to your home directory and refer to this location as `~/6GDetCom-Emulator` in the following):
+Clone the repository (we assume that you cloned to your home directory and refer to this location as `~/6GDetCom_Emulator` in the following):
 
 ```console
-$ git clone https://github.com/DETERMINISTIC6G/6GDetCom-Emulator.git
+$ git clone https://github.com/DETERMINISTIC6G/6GDetCom_Emulator.git
 ```
 
 ## Building and Loading the Kernel Module
@@ -63,14 +63,14 @@ $ git clone https://github.com/DETERMINISTIC6G/6GDetCom-Emulator.git
 To build the kernel module:
 
 ```console
-$ cd ~/6GDetCom-Emulator/sch_delay
+$ cd ~/6GDetCom_Emulator/sch_delay
 $ make clean & make
 ```
 
 To load the kernel module:
 
 ```console
-$ sudo insmod ~/6GDetCom-Emulator/sch_delay/build/sch_delay.ko
+$ sudo insmod ~/6GDetCom_Emulator/sch_delay/build/sch_delay.ko
 ```
 
 Check, whether the module has been loaded:
@@ -87,7 +87,7 @@ QDiscs are commonly loaded with the tc tool in Linux. The standard tc tool comin
 Download iproute2, which contains tc. We use iproute2 version v6.5.0, but you can also try other versions (see [iproute2](https://github.com/iproute2/iproute2/tags)):
 
 ```console
-$ cd ~/6GDetCom-Emulator/tc
+$ cd ~/6GDetCom_Emulator/tc
 $ git clone --branch v6.5.0 https://github.com/iproute2/iproute2.git
 ```
 
@@ -105,21 +105,21 @@ $ cd iproute2
 $ make
 ```
 
-If everything worked well, you should see the tc executable in the directory `iproute/tc`. We refer to this patched version of tc as `~/6GDetCom-Emulator/tc/iproute2/tc/tc` in the following.
+If everything worked well, you should see the tc executable in the directory `iproute/tc`. We refer to this patched version of tc as `~/6GDetCom_Emulator/tc/iproute2/tc/tc` in the following.
 
 # Usage: Assigning a Delay QDisc to a Network Interface and Running the User-Space Application
 
 If you have completed the steps above, you can assign a QDisc to a network interface, say eth0, as follows, using the modified tc tool:
 
 ```console
-$ cd ~/6GDetCom-Emulator/tc
+$ cd ~/6GDetCom_Emulator/tc
 $ sudo ./iproute2/tc/tc qdisc add dev eth0 root handle 1:0 delay reorder True limit 1000
 ```
 
 You can later remove the QDisc as follows:
 
 ```console
-$ cd ~/6GDetCom-Emulator/tc
+$ cd ~/6GDetCom_Emulator/tc
 $ sudo ./iproute2/tc/tc qdisc del dev eth0 root
 ```
 
@@ -135,7 +135,7 @@ When you have assigned the QDisc, a new character device will appear in the dire
 Start the given user-space application as follows:
 
 ```console
-$ cd ~/6GDetCom-Emulator/userspace_delay
+$ cd ~/6GDetCom_Emulator/userspace_delay
 $ sudo python3 userspace_delay.py /dev/sch_delay/eth0-1_0
 ```
 Optional parameters to the user-space application are:
@@ -211,7 +211,7 @@ $ cd scripts
 $ main.py -src downlink.xml -dst histogram.csv --emulator
 ```
 
-Note that the script `main.py` here is the script from the scripts directory of the 6GDetCom-Emulator repository. Setting the parameter `--emulator` converts all bounds to `ns`. All other values remain unchanged as specified in the original file `downlink.xml`.
+Note that the script `main.py` here is the script from the scripts directory of the 6GDetCom_Emulator repository. Setting the parameter `--emulator` converts all bounds to `ns`. All other values remain unchanged as specified in the original file `downlink.xml`.
 
 # Advanced Usage: Emulating End-to-End Network Delay for Multiple End-to-End Paths
 
@@ -244,7 +244,7 @@ $ sudo ip link set eth1 up
 Next, we add the delay QDiscs to eth0 and eth1 on Hemu (be sure to load the kernel module first as explained above and use the modified tc tool that you built):
 
 ```console
-$ cd ~/6GDetCom-Emulator/tc
+$ cd ~/6GDetCom_Emulator/tc
 $ sudo ./iproute2/tc/tc  qdisc add dev eth0 root handle 1:0 delay reorder True limit 1000
 $ sudo ./iproute2/tc/tc  qdisc add dev eth1 root handle 1:0 delay reorder True limit 1000
 ```
@@ -252,7 +252,7 @@ $ sudo ./iproute2/tc/tc  qdisc add dev eth1 root handle 1:0 delay reorder True l
 Finally, we start two instances of the user-space application, one providing delays for messages leaving through port eth0 (character device `/dev/sch_delay/eth0-1_0`) to emulate the delay from H2 towards H1, and one for port eth1 (character device `/dev/sch_delay/eth1-1_0`) to emulate the delay from H1 to H2.
 
 ```console
-$ cd ~/6GDetCom-Emulator/userspace_delay
+$ cd ~/6GDetCom_Emulator/userspace_delay
 $ sudo python3 userspace_delay.py /dev/sch_delay/eth0-1_0
 $ sudo python3 userspace_delay.py /dev/sch_delay/eth1-1_0
 ```
@@ -326,7 +326,7 @@ The specs of the Hemu host are:
 * Intel(R) Xeon(R) CPU E5-1650 v3 @ 3.50GHz
 * 16 GB RAM
 
-The pcap traces and Jupyter script of this evaluation can be found in directory `~/6GDetCom-Emulator/miscellaneous/measurements`.
+The pcap traces and Jupyter script of this evaluation can be found in directory `~/6GDetCom_Emulator/miscellaneous/measurements`.
 
 ```
        pcap (sender)

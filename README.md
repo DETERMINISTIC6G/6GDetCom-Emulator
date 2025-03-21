@@ -1,4 +1,4 @@
-The *6GDetCom Emulator* implements a Linux Queuing Discipline (QDisc) for network delay emulation.
+The **6GDetCom Network Delay Emulator** implements a Linux Queuing Discipline (QDisc) for network delay emulation.
 
 # Acknowledgments
 
